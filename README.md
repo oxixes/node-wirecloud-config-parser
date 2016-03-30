@@ -1,10 +1,10 @@
-# Wirecloud Config Parser
+# Node Wirecloud Config Parser
 
 Parser for a Wirecloud Mashable Application Component's config file.
 
 ## Getting started
 
-### 
+###
 
 ## Contributing
 

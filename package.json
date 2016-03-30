@@ -1,5 +1,5 @@
 {
-  "name": "wirecloud-config-parser",
+  "name": "node-wirecloud-config-parser",
   "version": "0.0.1",
   "description": "Parser for Wirecloud's components config file",
   "scripts": {
