@@ -2,31 +2,21 @@
 
 var fs = require('fs');
 var parseString = require('xml2js').parseString;
+var validator = require('./validator/validator');
 
 function ConfigParser() {};
 
 ConfigParser.prototype = {
     setFile: function (configFile) {
         fs.readFile(configFile, function (err, data) {
-            if (err) {
-                throw err;
-            }
+            if (err) {throw err;}
             parseString(data, function (err, data) {
-                if (err) {
-                    throw err;
+                if (err) {throw err;}
+                if (!validator.validate(data)) {
+                    throw 'Invalid config.xml structure';
                 }
-                switch (data) {
-                    case data.widget:
-                        this.data = data.widget;
-                        break;
-                    case data.operator:
-                        this.data = data.operator;
-                        break;
-                    case data.mashup:
-                        this.data = data.mashup;
-                    default:
-
-                }
+                this.componentData = data[validator.getType(data)];
+                this.data = data;
             });
         });
     },
@@ -34,18 +24,14 @@ ConfigParser.prototype = {
         return this.data;
     },
     getName: function () {
-        return this.data.$.name;
+        return this.componentData.$.name;
     },
     getVendor: function () {
-        return this.data.$.vendor;
+        return this.componentData.$.vendor;
     },
     getVersion: function () {
-        return this.data.$.versions;
-    },
-    check: function () {
-
+        return this.componentData.$.version;
     }
-
 };
 
 module.exports = ConfigParser;
