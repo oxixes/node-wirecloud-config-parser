@@ -9,16 +9,11 @@ module.exports.validate = function (data) {
     var type = getType(data);
     var specData = data[getType(data)];
 
-    if (
-        type !== 'unknown' &&
+    return type !== 'unknown' &&
         mainPropsVal.validateMainProperties(specData.$) &&
         detailsVal.validateDetails(specData.details) &&
         preferencesVal.validatePreferences(specData.preferences) &&
-        wiringVal.validateWiring(specData.wiring)
-    ) {
-        return true;
-    }
-    return false;
+        wiringVal.validateWiring(specData.wiring);
 };
 
 function getType (data) {
