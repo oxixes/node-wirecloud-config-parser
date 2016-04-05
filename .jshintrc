@@ -13,6 +13,7 @@
   "esnext": true,
   "mocha": true,
   "expr": true,
+  "validthis": true,
   "globals": {
     "Promise": true
   }

@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<asdf xmlns="http://wirecloud.conwet.fi.upm.es/ns/macdescription/1" vendor="" name="detailimage-widget" version="0.6.0">
+  <details>
+    <title>Detail Image</title>
+    <email>bgrana@conwet.com</email>
+    <image>images/catalogue.png</image>
+    <smartphoneimage>images/catalogueSmartphone.png</smartphoneimage>
+    <description>FIDASH widget that shows the details of a given OpenStack image.</description>
+    <authors>bgrana</authors>
+  </details>
+  <requirements>
+    <feature name="StyledElements" />
+  </requirements>
+  <wiring>
+    <inputendpoint name="image_id" type="text" label="Image ID" description="Receives image ID and OpenStack service token." friendcode="image_id"/>
+  </wiring>
+  <contents src="index.html" useplatformstyle="true"/>
+  <rendering height="25" width="5"/>
+</asdf>
