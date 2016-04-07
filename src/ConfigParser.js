@@ -5,7 +5,7 @@ var libxml = require('libxmljs');
 var request = require('request');
 var xml2js = require('xml2js');
 var Promise = require('es6-promise').Promise;
-var SCHEMA_URL = 'https://raw.githubusercontent.com/Wirecloud/wirecloud/develop/src/wirecloud/commons/utils/template/schemas/xml_schema.xsd';
+var SCHEMA_URL = 'https://raw.githubusercontent.com/Wirecloud/wirecloud/master/src/wirecloud/commons/utils/template/schemas/xml_schema.xsd';
 var DATA_NOT_AVAILABLE_ERROR = new Error('No data available. Please set the config file using the set file function');
 
 function validate(schema, data) {
