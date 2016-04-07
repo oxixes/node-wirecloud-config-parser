@@ -7,12 +7,11 @@
   },
   "main": "./src/ConfigParser",
   "author": "Braulio Grana <bgrana@conwet.com>",
-  "licenses": [
-    {
-      "type": "Apache 2",
-      "url": "https://github.com/Wirecloud/grunt-wirecloud/blob/master/LICENSE"
-    }
-  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wirecloud/node-wirecloud-config-parser.git"
+  },
+  "license": "Apache-2.0",
   "devDependencies": {
     "chai": "^3.5.0",
     "chai-as-promised": "^5.3.0",
