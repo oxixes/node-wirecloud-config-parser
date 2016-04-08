@@ -56,6 +56,13 @@ describe('Config Parser', function () {
             expect(parser.validate.bind(parser)).to.throw(Error);
             libxml.parseXml.restore();
         });
+
+        it('should throw an error if the config is detected as invalid while building', function () {
+            var badConstructor = function () {
+                return new ConfigParser('test/fixtures/invalidConfig.xml', true);
+            };
+            expect(badConstructor).to.throw(Error, 'Validation Error: Invalid config.xml file');
+        });
     });
 
     describe('Data', function () {
@@ -67,7 +74,11 @@ describe('Config Parser', function () {
                 type: 'widget'
             };
             var parser = new ConfigParser('test/fixtures/validConfig.xml', false);
-            expect(parser.getData()).to.equal(expectedData);
+            var actualData = parser.getData();
+            expect(actualData.name).to.equal(expectedData.name);
+            expect(actualData.vendor).to.equal(expectedData.vendor);
+            expect(actualData.version).to.equal(expectedData.version);
+            expect(actualData.type).to.equal(expectedData.type);
         });
     });
 

@@ -14,8 +14,8 @@ function ConfigParser(configFile, validate) {
         throw e;
     }
 
-    if (validate) {
-        this.validate();
+    if (validate && !this.validate()) {
+        throw new Error('Validation Error: Invalid config.xml file');
     }
 }
 
