@@ -5,16 +5,31 @@ var libxml = require('libxmljs');
 var request = require('sync-request');
 var SCHEMA_URL = 'https://raw.githubusercontent.com/Wirecloud/wirecloud/master/src/wirecloud/commons/utils/template/schemas/xml_schema.xsd';
 
-function ConfigParser(configFile, validate) {
-    var configData;
+function getContent(path) {
     try {
-        configData = fs.readFileSync(configFile).toString();
-        this.data = libxml.parseXml(configData);
+        return fs.readFileSync(path).toString();
     } catch (e) {
         throw e;
     }
+}
 
-    if (validate && !this.validate()) {
+function parseContent(content) {
+    try {
+        return libxml.parseXml(content);
+    } catch (e) {
+        throw e;
+    }
+}
+
+function ConfigParser(options) {
+    if (typeof options === 'string') {
+        options = {path: options};
+    }
+
+    var content = options.path ? getContent(options.path) : options.content;
+    this.data = parseContent(content);
+
+    if (options.validate && !this.validate()) {
         throw new Error('Validation Error: Invalid config.xml file');
     }
 }
