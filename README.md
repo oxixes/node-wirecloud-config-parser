@@ -40,6 +40,7 @@ Whether you have validated the XML content while building the object or not, you
 configParser.validate();
 // it should return true or false
 ```
+>**NOTE:** You can see all validation error that occurred in `configParser.data.validationErrors`.
 
 #### Retrieve data
 
