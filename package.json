@@ -24,7 +24,7 @@
     "sinon": "^1.17.3"
   },
   "dependencies": {
-    "libxmljs": "^0.17.1",
+    "libxmljs": "^0.18.4",
     "sync-request": "^3.0.0"
   }
 }
