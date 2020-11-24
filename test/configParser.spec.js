@@ -3,7 +3,7 @@
 var chai = require('chai');
 var expect = chai.expect;
 var sinon = require('sinon');
-var libxml = require('libxmljs');
+var libxml = require('libxmljs2');
 var ConfigParser = require('../src/ConfigParser');
 var fs = require('fs');
 global.request = require('sync-request');

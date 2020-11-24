@@ -1,7 +1,7 @@
 'use strict';
 
 var fs = require('fs');
-var libxml = require('libxmljs');
+var libxml = require('libxmljs2');
 var request = require('sync-request');
 var SCHEMA_URL = 'https://raw.githubusercontent.com/Wirecloud/wirecloud/master/src/wirecloud/commons/utils/template/schemas/xml_schema.xsd';
 
