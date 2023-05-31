@@ -1,6 +1,6 @@
 {
   "name": "wirecloud-config-parser",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Parser for WireCloud's components config file",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -24,7 +24,7 @@
     "sinon": "^1.17.3"
   },
   "dependencies": {
-    "libxmljs2": "^0.29.0",
+    "libxmljs2": "^0.32.0",
     "sync-request": "^3.0.0"
   }
 }
