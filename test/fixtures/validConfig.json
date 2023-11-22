@@ -1,0 +1,125 @@
+{
+    "type": "widget",
+    "vendor": "CoNWeT",
+    "name": "panel",
+    "version": "2.0.2",
+    "macversion": 2,
+    "title": "Panel",
+    "description": "Displaying simple texts messages, like measures, in an easy way",
+    "longdescription": "DESCRIPTION.md",
+    "authors": [
+      {
+        "name": "Álvaro Arranz García",
+        "email": "aarranz@conwet.com"
+      }
+    ],
+    "contributors": [],
+    "email": "aarranz@conwet.com",
+    "image": "images/catalogue.png",
+    "smartphoneimage": "",
+    "homepage": "https://github.com/Wirecloud/panel-widget",
+    "doc": "doc/userguide.md",
+    "license": "Apache License 2.0",
+    "licenseurl": "http://www.apache.org/licenses/LICENSE-2.0.html",
+    "issuetracker": "https://github.com/Wirecloud/panel-widget/issues",
+    "changelog": "doc/changelog.md",
+    "requirements": [
+      {
+        "type": "feature",
+        "name": "StyledElements"
+      }
+    ],
+    "preferences": [
+      {
+        "name": "default-value",
+        "type": "text",
+        "label": "Default Value",
+        "description": "",
+        "readonly": false,
+        "default": "--",
+        "value": null,
+        "secure": false,
+        "multiuser": false,
+        "required": false
+      },
+      {
+        "name": "default-unit",
+        "type": "text",
+        "label": "Default Unit",
+        "description": "",
+        "readonly": false,
+        "default": "",
+        "value": null,
+        "secure": false,
+        "multiuser": false,
+        "required": false
+      },
+      {
+        "name": "max-height",
+        "type": "text",
+        "label": "Max height (Percentage)",
+        "description": "",
+        "readonly": false,
+        "default": "60",
+        "value": null,
+        "secure": false,
+        "multiuser": false,
+        "required": false
+      },
+      {
+        "name": "min-height",
+        "type": "text",
+        "label": "Min height (Percentage)",
+        "description": "",
+        "readonly": false,
+        "default": "10",
+        "value": null,
+        "secure": false,
+        "multiuser": false,
+        "required": false
+      },
+      {
+        "name": "decimals",
+        "type": "text",
+        "label": "Decimals",
+        "description": "Number of decimals to use for number values. Empty for using all the available decimals",
+        "readonly": false,
+        "default": "1",
+        "value": null,
+        "secure": false,
+        "multiuser": false,
+        "required": false
+      }
+    ],
+    "properties": [],
+    "wiring": {
+      "inputs": [
+        {
+          "name": "textinput",
+          "type": "text",
+          "label": "Contents",
+          "description": "Contents",
+          "actionlabel": "",
+          "friendcode": "panel-content"
+        }
+      ],
+      "outputs": []
+    },
+    "contents": {
+      "src": "index.html",
+      "contenttype": "text/html",
+      "charset": "utf-8",
+      "useplatformstyle": true,
+      "cacheable": true
+    },
+    "altcontents": [],
+    "widget_width": "400px",
+    "widget_height": "200px",
+    "js_files": [
+      "js/main.js"
+    ],
+    "entrypoint": "ConwetPanel",
+    "translations": {},
+    "default_lang": "en",
+    "translation_index_usage": {}
+}

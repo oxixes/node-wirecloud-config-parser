@@ -28,11 +28,17 @@ describe('Config Parser', function () {
             var failContructor = function () {
                 return new ConfigParser('test/fixtures/syntacticallyIncorrect.xml');
             };
-            expect(failContructor).to.throw(Error, 'Start tag expected, \'<\' not found');
+            expect(failContructor).to.throw(Error, 'Invalid config file format');
         });
 
         it('should read the contents of a file if they are passed in the options object', function () {
             var content = fs.readFileSync('test/fixtures/validConfig.xml').toString();
+            var parser = new ConfigParser({content: content});
+            expect(parser.data).not.to.be.undefined;
+        });
+
+        it('should read the contents of a JSON file if they are passed in the options object', function () {
+            var content = fs.readFileSync('test/fixtures/validConfig.json').toString();
             var parser = new ConfigParser({content: content});
             expect(parser.data).not.to.be.undefined;
         });
@@ -60,9 +66,20 @@ describe('Config Parser', function () {
             expect(parser.validate()).to.equal(false);
         });
 
+        it('should not validate an invalid JSON config file', function () {
+            var parser = new ConfigParser('test/fixtures/invalidConfig.json');
+            expect(parser.validate()).to.equal(false);
+        });
+
+        var spy = sinon.spy(ConfigParser.prototype, 'validate');
+
         it('should validate the config file when building the object', function () {
-            var spy = sinon.spy(ConfigParser.prototype, 'validate');
             var parser = new ConfigParser({path: 'test/fixtures/validConfig.xml', validate: true});
+            expect(spy.called).to.equal(true);
+        });
+
+        it('should validate the JSON config file when building the object', function () {
+            var parser = new ConfigParser({path: 'test/fixtures/validConfig.json', validate: true});
             expect(spy.called).to.equal(true);
         });
 
@@ -90,6 +107,21 @@ describe('Config Parser', function () {
                 type: 'widget'
             };
             var parser = new ConfigParser('test/fixtures/validConfig.xml');
+            var actualData = parser.getData();
+            expect(actualData.name).to.equal(expectedData.name);
+            expect(actualData.vendor).to.equal(expectedData.vendor);
+            expect(actualData.version).to.equal(expectedData.version);
+            expect(actualData.type).to.equal(expectedData.type);
+        });
+
+        it('should get all required data from a JSON config file', function () {
+            var expectedData = {
+                name: 'panel',
+                vendor: 'CoNWeT',
+                version: '2.0.2',
+                type: 'widget'
+            };
+            var parser = new ConfigParser('test/fixtures/validConfig.json');
             var actualData = parser.getData();
             expect(actualData.name).to.equal(expectedData.name);
             expect(actualData.vendor).to.equal(expectedData.vendor);
