@@ -5,6 +5,15 @@ var libxml = require('libxmljs2');
 var request = require('sync-request');
 var SCHEMA_URL = 'https://raw.githubusercontent.com/Wirecloud/wirecloud/master/src/wirecloud/commons/utils/template/schemas/xml_schema.xsd';
 
+/* jshint latedef:nofunc */
+
+class TemplateParseException extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "TemplateParseException";
+    }
+}
+
 function getContent(path) {
     try {
         return fs.readFileSync(path).toString();
@@ -26,7 +35,7 @@ ConfigParser.prototype.parseContent = function (content) {
             throw new Error('Invalid config file format');
         }
     }
-}
+};
 
 function ConfigParser(options) {
     if (typeof options === 'string') {
@@ -35,7 +44,7 @@ function ConfigParser(options) {
 
     var content = options.path ? getContent(options.path) : options.content;
     this.data = this.parseContent(content);
-    if (!this.validate()) {
+    if (options.validate && !this.validate()) {
         throw new Error('Validation Error: Invalid config.xml file');
     }
 }
@@ -55,11 +64,11 @@ ConfigParser.prototype.validate = function () {
     }
     else if (this.type === "json") {
         try {
-            this.validateJson(body);
+            this.validateJson();
             return true;
         }
         catch (e) {
-            throw e;
+            return false;
         }
     }
 
@@ -165,7 +174,7 @@ function checkContactsFields(fields, place, required = false) {
             }
 
             place[field] = [];
-        } else if (typeof place[field] === 'string' || Array.isArray(place[field]) || place[field] instanceof Tuple) {
+        } else if (typeof place[field] === 'string' || Array.isArray(place[field])) {
             
         } else {
             throw new TemplateParseException(`${field} field must be a list or string`);
@@ -211,13 +220,21 @@ function checkComponentInfo(data, componentType) {
 ConfigParser.prototype.validateJson = function () {
     checkStringFields(['title', 'description', 'longdescription', 'email', 'homepage', 'doc', 'changelog', 'image', 'smartphoneimage', 'license', 'licenseurl', 'issuetracker'], this.data);
     checkContactsFields(['authors', 'contributors'], this.data);
+    checkIntegerFields(['macversion'], this.data, false);
+    if (!('macversion' in this.data)) {
+        this.data['macversion'] = 1;
+    }
+    // Extra check for the macversion field, as it currently only supports 1 and 2
+    if (this.data['macversion'] !== 1 && this.data['macversion'] !== 2) {
+        throw new TemplateParseException('Invalid value for the macversion field (currently only 1 or 2 are supported)');   
+    }
     // TODO ???checkStringFields(['type'], this.data, true)
     // Normalize/check preferences and properties (only for widgets and operators)
     if (this.data['type'] !== 'mashup') {
         checkArrayFields(['preferences', 'properties'], this.data);
         for (let preference of this.data['preferences']) {
             checkStringFields(['name', 'type'], preference, true);
-            checkStringFields(['label', 'description', 'default'], reference);
+            checkStringFields(['label', 'description', 'default'], preference);
             checkBooleanFields(['readonly', 'secure'],  preference);
             checkStringFields(['value'], preference, undefined, true);
             checkBooleanFields('required', preference);
@@ -232,6 +249,10 @@ ConfigParser.prototype.validateJson = function () {
     }
 
     if (this.data['type'] === 'widget') {
+        if (this.data['macversion'] > 1) {
+            checkStringFields(['entrypoint'], this.data, true);
+        }
+
         checkArrayFields(['altcontents'], this.data);
         if (this.data['contents'] === null || typeof this.data['contents'] !== 'object') {
             throw new TemplateParseException('Missing widget content info');
@@ -242,6 +263,10 @@ ConfigParser.prototype.validateJson = function () {
             for (let altcontent of this.data['altcontents']) {
                 checkContentsField(altcontent);
             }
+        }
+    } else if (this.data['type'] === 'operator') {
+        if (this.data['macversion'] > 1) {
+            checkStringFields(['entrypoint'], this.data, true);
         }
     } else if (this.data['type'] === 'mashup') {
         checkArrayFields(['params', 'tabs', 'embedded'], this.data);
@@ -317,20 +342,14 @@ ConfigParser.prototype.validateJson = function () {
         // Requirements
         checkArrayFields(['requirements'], this.data);
     }
-}
+};
 
-class TemplateParseException extends Error {
-    constructor(message) {
-        super(message);
-        this.name = "TemplateParseException";
-    }
-}
 ConfigParser.prototype.getData = function (configFile) {
     return {
-        name: this.data.root()._attr('name').value(),
-        vendor: this.data.root()._attr('vendor').value(),
-        version: this.data.root()._attr('version').value(),
-        type: this.data.root().name()
+        name: (this.type === 'xml') ? this.data.root()._attr('name').value() : this.data['name'],
+        vendor: (this.type === 'xml') ? this.data.root()._attr('vendor').value() : this.data['vendor'],
+        version: (this.type === 'xml') ? this.data.root()._attr('version').value() : this.data['version'],
+        type: (this.type === 'xml') ? this.data.root().name() : this.data['type']
     };
 };
 
