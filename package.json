@@ -1,6 +1,6 @@
 {
   "name": "wirecloud-config-parser",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Parser for WireCloud's components config file",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
