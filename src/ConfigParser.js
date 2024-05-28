@@ -175,7 +175,7 @@ function checkContactsFields(fields, place, required = false) {
 
             place[field] = [];
         } else if (typeof place[field] === 'string' || Array.isArray(place[field])) {
-            
+
         } else {
             throw new TemplateParseException(`${field} field must be a list or string`);
         }
@@ -226,7 +226,7 @@ ConfigParser.prototype.validateJson = function () {
     }
     // Extra check for the macversion field, as it currently only supports 1 and 2
     if (this.data['macversion'] !== 1 && this.data['macversion'] !== 2) {
-        throw new TemplateParseException('Invalid value for the macversion field (currently only 1 or 2 are supported)');   
+        throw new TemplateParseException('Invalid value for the macversion field (currently only 1 or 2 are supported)');
     }
     // TODO ???checkStringFields(['type'], this.data, true)
     // Normalize/check preferences and properties (only for widgets and operators)
@@ -250,7 +250,7 @@ ConfigParser.prototype.validateJson = function () {
 
     if (this.data['type'] === 'widget') {
         if (this.data['macversion'] > 1) {
-            checkStringFields(['entrypoint'], this.data, true);
+            checkStringFields(['entrypoint'], this.data);
         }
 
         checkArrayFields(['altcontents'], this.data);
@@ -266,7 +266,7 @@ ConfigParser.prototype.validateJson = function () {
         }
     } else if (this.data['type'] === 'operator') {
         if (this.data['macversion'] > 1) {
-            checkStringFields(['entrypoint'], this.data, true);
+            checkStringFields(['entrypoint'], this.data);
         }
     } else if (this.data['type'] === 'mashup') {
         checkArrayFields(['params', 'tabs', 'embedded'], this.data);
